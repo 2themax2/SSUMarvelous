@@ -4,13 +4,22 @@
 </template>
 
 <script>
+import axios from 'axios'
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
+  data: ()=> ({
+    projects: []
+  }),
   components: {
     HelloWorld
-  }
+  },
+  mounted () {
+  axios.get('http://localhost:8000/api/projects/').then((response) => {
+    this.projects = response.data
+  })
+}
 }
 </script>
 
