@@ -1,10 +1,12 @@
+import "./assets/main.css"
 import { createApp } from 'vue'
 import App from './App.vue'
 import PrimeVue from 'primevue/config';
 import Lara from '@primevue/themes/lara';
+import 'primeflex/primeflex.css'
+import ToastService from 'primevue/toastservice';
 
 const app = createApp(App)
-app.mount('#app')
 app.use(PrimeVue, {
   theme: {
     preset: Lara,
@@ -14,6 +16,8 @@ app.use(PrimeVue, {
       cssLayer: false
     }
   }});
+app.use(ToastService)
+app.mount('#app')
 
 
 
