@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from .models import RoleTest
+from rest_framework import serializers, viewsets
 
-# Create your views here.
-# views.py
-from rest_framework import viewsets
-from .models import Project
-from .serializers import ProjectSerializer
+# Serializers define the API representation.
+class RoleTestSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = RoleTest
+        fields = ['role', 'question']
 
-
-class ProjectsViewSet(viewsets.ModelViewSet):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+# ViewSets define the view behavior.
+class RoleTestViewSet(viewsets.ModelViewSet):
+    queryset = RoleTest.objects.all()
+    serializer_class = RoleTestSerializer

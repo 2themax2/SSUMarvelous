@@ -17,10 +17,10 @@ Including another URLconf
 # urls.py
 from django.urls import include, path
 from rest_framework import routers
-from .views import ProjectsViewSet
+from .views import RoleTestViewSet
 
 router = routers.DefaultRouter()
-router.register(r'projects', ProjectsViewSet)
+router.register(r'RoleTest', RoleTestViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
