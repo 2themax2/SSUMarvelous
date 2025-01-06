@@ -34,3 +34,4 @@ class Command(BaseCommand):
         for role, question in question_list:
             object = RoleTest(role=role, question=question)
             object.save()
+        print("Added questions to database.")
