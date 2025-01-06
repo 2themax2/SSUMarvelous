@@ -31,3 +31,8 @@ class Project(models.Model):
 class ProjectStudents(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+
+class RoleTest(models.Model):
+    role = models.CharField(max_length=20)
+    question = models.TextField(max_length=300, default="Question")
