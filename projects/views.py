@@ -1,5 +1,6 @@
 from .models import RoleTest, Student
 from rest_framework import serializers, viewsets
+from rest_framework.response import Response
 
 # Serializers define the API representation.
 class RoleTestSerializer(serializers.HyperlinkedModelSerializer):
@@ -20,7 +21,8 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    
-    def update(self, request, *args, **kwargs):
-        request.data.get()
-        return super.update(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        scores = request.data.get()
+        return Response(serializer.data)
