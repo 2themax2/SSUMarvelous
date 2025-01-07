@@ -1,5 +1,5 @@
 from .models import RoleTest, Student
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, generics
 from rest_framework.response import Response
 
 # Serializers define the API representation.
@@ -18,7 +18,7 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
         model = Student
         fields = ['first_name', 'last_name', 'plant', 'investigator', 'coordinator', 'shaper', 'monitor', 'teamworker', 'implementer', 'finisher', 'specialist']
 
-class StudentViewSet(viewsets.ModelViewSet):
+class StudentViewSet(generics.GenericAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
