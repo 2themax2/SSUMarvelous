@@ -1,31 +1,15 @@
-<template>
-  <div class="card flex justify-center">
-    <Toast />
-    <Form v-slot="$form" @submit="handleSubmit"  >
-    <div v-for="(question, index) in questions" :key="index" class="flex  gap-2">
-      <p>
-      Question {{index + 1}}:
-      </p>
-      <QuestionBox
-          :question="question"
-          @answered="handleResponse(index, $event)"
-        />
-    </div>
-    <Button type="submit" severity="success" label="Submit" />
-
-  </Form>
-  </div>
-
-
-</template>
 <script setup>
 import Button from 'primevue/button'
 import { Form } from '@primevue/forms'
-import QuestionBox from './QuestionBox.vue'
+import QuestionBox from '../QuestionBox.vue'
 import { useToast } from "primevue/usetoast";
 import {Toast} from "primevue";
-
 import {inject, ref} from "vue";
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
 const questions = inject('questions')
 const toast = useToast();
 
@@ -43,3 +27,21 @@ const handleSubmit = () => {
     console.log('answers:', answers.value);
 };
 </script>
+<template>
+  <div class="card flex justify-center">
+    <Toast />
+    <Form v-slot="$form" @submit="handleSubmit"  >
+    <div v-for="(question, index) in questions" :key="index" class="flex  gap-2">
+      <p>
+      Question {{index + 1}}:
+      </p>
+      <QuestionBox
+          :question="question"
+          @answered="handleResponse(index, $event)"
+        />
+    </div>
+    <Button type="submit" severity="success" label="Submit" />
+
+  </Form>
+  </div>
+</template>

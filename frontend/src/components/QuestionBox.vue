@@ -1,8 +1,8 @@
 <template>
   <div>
     <p>
-<!--      {{question.question}}-->
-      {{question}}
+      {{question.question}}
+<!--      {{question}}-->
     </p>
     <div class="flex flex-wrap gap-4">
 <!--      <RadioButtonGroup>-->
