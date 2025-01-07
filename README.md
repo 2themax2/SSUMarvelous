@@ -31,6 +31,7 @@ python manage.py runserver
 
 Om de front-end op te starten voer uit:
 ```
+cd frontend
 npm run dev
 ```
 
