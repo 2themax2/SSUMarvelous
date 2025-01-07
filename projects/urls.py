@@ -25,4 +25,5 @@ router.register(r'Student', StudentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    # path('csrf/', get_csrf_token, name='csrf_token'),
 ]

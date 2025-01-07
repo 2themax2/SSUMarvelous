@@ -33,10 +33,27 @@ const handleResponse = (index, count) => {
 const handleSubmit = () => {
     toast.add({ severity: 'success', summary: 'Form is submitted.' })
     console.log('answers:', answers.value);
-    // axios.post('http://127.0.0.1:8000/Student/', {answers: answers.value})
-    //   .then(response => {console.log('Response', response.data)})
-    //   .catch(err => {console.log(err)} )
-    router.push('/results')
+    // axios.get('http://127.0.0.1:8000/csrf/')
+    //   .then(response => {
+        // const csrfToken = response.data.csrfToken;
+        // console.log(csrfToken)
+        axios.get(
+            'http://127.0.0.1:8000/Student/',
+            { answers: answers.value},
+            // Voeg hier de rest van je velden toe
+            { headers: {
+              // 'X-CSRFToken': csrfToken,
+              'Content-Type': 'application/json',
+              },
+              // withCredentials: true,
+            }
+        )
+        .then(response => {
+          console.log('Response:', response.data);})
+        .catch(err => {console.error('Error:', err);});
+      // })
+    // .catch(err => console.error('CSRF-token ophalen mislukt:', err));
+
 };
 </script>
 <template>

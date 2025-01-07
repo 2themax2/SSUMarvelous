@@ -31,11 +31,27 @@ DEBUG = True
 ALLOWED_HOSTS = ['.azurewebsites.net', '127.0.0.1', 'localhost']
 
 # This should be changed once we put this in production.
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Voeg het juiste domein toe
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Optioneel: Sta alle nodige headers en methoden toe
+CORS_ALLOW_METHODS = [
+    "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS",
+]
+
+# Optioneel: stel toegestane headers in
+CORS_ALLOW_HEADERS = [
+    "Content-Type",
+    "Authorization",
+    "X-CSRFToken",
+]
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
