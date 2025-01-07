@@ -4,13 +4,21 @@ import { Form } from '@primevue/forms'
 import QuestionBox from '../QuestionBox.vue'
 import { useToast } from "primevue/usetoast";
 import {Toast} from "primevue";
-import {inject, ref} from "vue";
+import {onMounted, ref} from "vue";
+import axios from "axios";
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
 
-const questions = inject('questions')
+const questions = ref([])
+onMounted(()=> {
+  axios.get('http://127.0.0.1:8000/RoleTest/').then((response) => {
+    console.log(response.data)
+    questions.value = response.data
+  })
+});
+
 const toast = useToast();
 
 // Create a reactive array to keep track of answers (e.g., scores)
