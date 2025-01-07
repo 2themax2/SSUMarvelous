@@ -29,15 +29,29 @@ const handleResponse = (index, count) => {
   answers.value[index] = count.value;
 };
 
+const token = ref()
 // Form submit handler
 const handleSubmit = () => {
-    toast.add({ severity: 'success', summary: 'Form is submitted.' })
-    console.log('answers:', answers.value);
-    // axios.post('http://127.0.0.1:8000/Student/', {answers: answers.value})
-    //   .then(response => {console.log('Response', response.data)})
-    //   .catch(err => {console.log(err)} )
-    router.push('/results')
+  console.log('answers:', answers.value);
+  axios.get('http://127.0.0.1:8000/csrf-token/').then((response) => {
+    console.log(response.data)
+    token.value = response.data.csrfToken
+    axios.post('http://127.0.0.1:8000/Student/calculate_scores/', {answers: answers.value}, {
+      headers: {'Content-Type': 'application/json',
+        'X-CSRFToken': token.value
+      },
+      credentials: 'include', // Stuurt cookies naar de backend
+    })
+        .then(response => {
+          console.log('Response', response.data)
+          toast.add({ severity: 'success', summary: 'Form is submitted.' })
+          router.push('/results')
+        })
+        .catch(err => {console.log(err)} )
+     })
+      .catch(err => {console.log(err)} )
 };
+
 </script>
 <template>
   <header class="header-section">

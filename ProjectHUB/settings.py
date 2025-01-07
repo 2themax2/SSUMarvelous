@@ -32,8 +32,18 @@ ALLOWED_HOSTS = ['.azurewebsites.net', '127.0.0.1', 'localhost']
 
 # This should be changed once we put this in production.
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:8080',
+#     'http://localhost:5175'
+# # Voeg je frontend URL toe
+# ]
 
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'x-csrftoken',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -136,6 +146,11 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny'
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+CSRF_COOKIE_HTTPONLY = False  # Maakt de cookie toegankelijk voor JavaScript (nodig als je deze in JS wilt lezen)
+CSRF_COOKIE_SAMESITE = 'None'  # Of gebruik 'None' als je frontend en backend op verschillende domeinen staan
+CSRF_COOKIE_SECURE = False

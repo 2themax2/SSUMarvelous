@@ -1,30 +1,35 @@
+from rest_framework.decorators import action
+
 from .models import RoleTest, Student
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
+from .serializers import RoleTestSerializer, StudentSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 # Serializers define the API representation.
-class RoleTestSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = RoleTest
-        fields = ['role', 'question']
+
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
+
+def csrf_token_view(request):
+    return JsonResponse({'csrfToken': get_token(request)})
+
 
 # ViewSets define the view behavior.
 class RoleTestViewSet(viewsets.ModelViewSet):
     queryset = RoleTest.objects.all()
     serializer_class = RoleTestSerializer
-
-class StudentSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Student
-        fields = ['first_name', 'last_name', 'plant', 'investigator', 'coordinator', 'shaper', 'monitor', 'teamworker', 'implementer', 'C', 'specialist']
-
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        scores = request.data.get()
+    @action(detail=False, methods=['post'])
+    def calculate_scores(self, request):
+        scores = request.data.get('answers')  # Zorg ervoor dat je een lijst 'scores' in je request meestuurt
+        if not scores or len(scores) < 18:
+            return Response({"error": "Scores must have at least 18 values"}, status=400)
+
+        # scores = request.data.get()
         student = Student.objects.get(student_nr=440536)
         student.plant = scores[0] + scores[1]
         student.investigator = scores[2] + scores[3]
@@ -33,7 +38,9 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.monitor = scores[8] + scores[9]
         student.teamworker = scores[10] + scores[11]
         student.implementer = scores[12] + scores[13]
-        student.specialist = scores[14] + scores[15]
+        student.finisher = scores[14] + scores[15]
         student.specialist = scores[16] + scores[17]
-        student.save()        
+        student.save()
+
+        serializer = self.get_serializer(student)
         return Response(serializer.data)

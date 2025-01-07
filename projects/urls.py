@@ -17,12 +17,13 @@ Including another URLconf
 # urls.py
 from django.urls import include, path
 from rest_framework import routers
-from .views import RoleTestViewSet, StudentViewSet
-
+from .views import RoleTestViewSet, StudentViewSet, csrf_token_view
 router = routers.DefaultRouter()
 router.register(r'RoleTest', RoleTestViewSet)
 router.register(r'Student', StudentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('csrf-token/', csrf_token_view, name='csrf-token'),
 ]
+# urlpatterns = router.urls
