@@ -33,9 +33,16 @@ const handleResponse = (index, count) => {
 const handleSubmit = () => {
     toast.add({ severity: 'success', summary: 'Form is submitted.' })
     console.log('answers:', answers.value);
+    // axios.post('http://127.0.0.1:8000/Student/', {answers: answers.value})
+    //   .then(response => {console.log('Response', response.data)})
+    //   .catch(err => {console.log(err)} )
+    router.push('/results')
 };
 </script>
 <template>
+  <header class="header-section">
+      <h1 class="text-left">Test</h1>
+  </header>
   <div class="card flex justify-center">
     <Toast />
     <Form v-slot="$form" @submit="handleSubmit"  >

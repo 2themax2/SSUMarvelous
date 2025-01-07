@@ -36,15 +36,11 @@ const items = ref([
   <Menubar :model="items">
     <template #item="{ item, props}">
       <router-link v-slot="{ href, navigate }" :to="item.route" custom>
-        <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+        <a :href="href" v-bind="props.action" @click="navigate">
           <span :class="item.icon" />
           <span>{{ item.label }}</span>
         </a>
       </router-link>
-<!--          <RouterLink>-->
-<!--            <span :class="item.icon" />-->
-<!--            <span>{{ item.label }}</span>-->
-<!--          </RouterLink>-->
     </template>
   </Menubar>
 
