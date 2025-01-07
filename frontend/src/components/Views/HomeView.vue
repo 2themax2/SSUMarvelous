@@ -37,13 +37,12 @@ import Divider from "primevue/divider";
     <!-- Objectives Section -->
     <Card class="objectives-list">
       <template #content>
-        <ul>
-          <li>Studenten interdisciplinair laten samenwerken.</li>
-          <li>
-            Diverse studentengroepen aan interdisciplinaire complexe vraagstukken
+        <p>
+          Studenten interdisciplinair laten samenwerken.
+        </p>
+        <p>Diverse studentengroepen aan interdisciplinaire complexe vraagstukken
             laten werken.
-          </li>
-        </ul>
+        </p>
       </template>
     </Card>
 
