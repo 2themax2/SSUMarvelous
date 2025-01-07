@@ -1,6 +1,6 @@
 <script setup>
 
-import {onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router'
 
@@ -8,12 +8,6 @@ const router = useRouter()
 const route = useRoute()
 
 const questions = ref([])
-// onMounted(()=> {
-//   axios.get('http://127.0.0.1:8000/Student/').then((response) => {
-//     console.log(response.data)
-//     questions.value = response.data
-//   })
-// });
 const result = "You are a Plant!"
 const explanation = `In Belbin's team roles theory, a "Plant" is a creative and innovative thinker who brings fresh ideas and problem-solving strategies to a team. Plants are known for their originality but may sometimes struggle to turn their concepts into reality or communicate effectively without support from others.`;
 
