@@ -47,25 +47,6 @@ import Divider from "primevue/divider";
       </template>
     </Card>
 
-    <Divider align="left">Gebruikers/Stakeholders</Divider>
-    <!-- Stakeholders Section -->
-    <Card class="stakeholders-list">
-      <template #content>
-        <ul>
-          <li>Studenten die zich willen aanmelden voor projecten.</li>
-          <li>Docenten die projecten willen kunnen aanmaken.</li>
-          <li>
-            Bedrijven/instellingen uit de arbeids- en onderzoekswereld die beter
-            opgeleide werknemers willen.
-          </li>
-          <li>
-            Hogescholen en universiteiten die studenten interdisciplinair willen
-            kunnen opleiden.
-          </li>
-        </ul>
-      </template>
-    </Card>
-
     <Divider align="left">Impact van de oplossing</Divider>
     <!-- Impact Section -->
     <Card>
@@ -79,29 +60,6 @@ import Divider from "primevue/divider";
           Door tijdens een opleiding interdisciplinair gewerkt te hebben ligt de
           lat lager om dit later, tijdens onderzoek of werk, weer te doen.
         </p>
-      </template>
-    </Card>
-
-    <Divider align="left">Valkuilen</Divider>
-    <!-- Challenges Section -->
-    <Card>
-      <template #title>Valkuilen</template>
-      <template #content>
-        <ul>
-          <li>
-            Het zou kunnen dat veel studenten van dezelfde opleiding zich
-            aanmelden voor hetzelfde project, waardoor er alsnog geen
-            interdisciplinaire teams ontstaan.
-          </li>
-          <li>
-            Roosters van studenten uit verschillende opleidingen zijn niet goed
-            te combineren.
-          </li>
-          <li>
-            Het bedenken van een project dat goed aansluit bij de verschillende
-            opleidingen kan ingewikkeld zijn.
-          </li>
-        </ul>
       </template>
     </Card>
 
