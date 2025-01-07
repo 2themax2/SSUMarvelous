@@ -1,18 +1,15 @@
 <template>
   <div>
     <p>
-<!--      {{question.question}}-->
-      {{question}}
+      {{question.question}}
     </p>
     <div class="flex flex-wrap gap-4">
-<!--      <RadioButtonGroup>-->
-        <div v-for="score in 5" :key="score" class="flex flex-wrap gap-4">
+        <div v-for="score in 6" :key="score" class="flex flex-wrap gap-4">
           <div class="flex align-items-center gap-2">
             <RadioButton size="small" v-model="selectedScore" :inputId="score.toString()" :value="score" name="response" @change="updateAnswer()"/>
             <label :for="score">{{score}}</label>
           </div>
         </div>
-<!--      </RadioButtonGroup>-->
     </div>
   </div>
 

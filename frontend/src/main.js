@@ -5,6 +5,8 @@ import PrimeVue from 'primevue/config';
 import Lara from '@primevue/themes/lara';
 import 'primeflex/primeflex.css'
 import ToastService from 'primevue/toastservice';
+import 'primeicons/primeicons.css'
+import router from './router'
 
 const app = createApp(App)
 app.use(PrimeVue, {
@@ -16,6 +18,7 @@ app.use(PrimeVue, {
       cssLayer: false
     }
   }});
+app.use(router)
 app.use(ToastService)
 app.mount('#app')
 
