@@ -1,12 +1,6 @@
 <script setup>
-import {inject, onMounted, ref, provide, watchEffect} from "vue";
-import axios from "axios";
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from "primevue/usetoast";
-import {Toast} from "primevue";
+import {ref, watchEffect} from "vue";
 import Chart from 'primevue/chart';
-
-// const topThree = inject('topThree')
 
 const props = defineProps(['top'])
 

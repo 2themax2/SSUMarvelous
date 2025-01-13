@@ -1,5 +1,5 @@
 <script setup>
-import {inject, onMounted, onUpdated, ref, toRaw, defineProps, watchEffect} from "vue";
+import { ref, defineProps, watchEffect} from "vue";
 import Chart from 'primevue/chart';
 
 const radarData = ref();
