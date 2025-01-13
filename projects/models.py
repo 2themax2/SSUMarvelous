@@ -31,6 +31,7 @@ class Project(models.Model):
 class ProjectStudents(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    group_nr = models.IntegerField(blank=True, null=True)
 
 
 class RoleTest(models.Model):
