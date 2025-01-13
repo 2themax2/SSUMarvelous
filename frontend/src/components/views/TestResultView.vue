@@ -7,6 +7,7 @@ import { useToast } from "primevue/usetoast";
 import {Toast} from "primevue";
 import BarChart from '../BarChart.vue';
 import RadarChart from '../RadarChart.vue'
+import RoleDescription from "@/components/RoleDescription.vue";
 
 const router = useRouter()
 const route = useRoute()
@@ -38,23 +39,12 @@ function capitalizeFirstLetter(string) {
 
 <template>
   <div class="flex flex-column justify-content-center align-items-center w-full">
-    <header class="header-section flex align-center">
-      <h1>You are a: {{header}}</h1>
-    </header>
+    <div class="flex align-items-center justify-content-center mt-5">
+      <h1 class="font-bold" style="color: var(--p-sky-950)">You are a: {{header}}</h1>
+    </div>
     <Toast />
     <BarChart :top="topThree"/>
+    <RoleDescription :top="topThree"/>
     <RadarChart :scores="scores" />
   </div>
 </template>
-
-<style scoped>
-.header-section {
-  margin-bottom: 20px;
-}
-
-.text-center {
-  text-align: center;
-}
-
-
-</style>

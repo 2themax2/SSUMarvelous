@@ -42,15 +42,27 @@ const setBarOptions = () => {
     const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
     return {
+        font: {
+          size: 14
+        },
         maintainAspectRatio: false,
         aspectRatio: 0.8,
         plugins: {
-            legend: {
-                labels: {
-                    color: textColor
-                }
+          title: {
+            display: true,
+            text: 'These are your top three scores',
+            fullSize: true,
+            align: 'center',
+            font: {
+              size: 18
             },
-
+            padding: {
+              bottom: 3
+            }
+          },
+            legend: {
+                display: false
+            },
         },
         scales: {
             x: {
@@ -66,6 +78,7 @@ const setBarOptions = () => {
                 }
             },
             y: {
+
                 max: 12,
                 min: 1,
                 ticks: {
@@ -88,15 +101,18 @@ watchEffect(() => {
   }
 })
 
+
+
 </script>
 
 <template>
   <div class="flex justify-content-center align-items-center w-10 h-24rem p-3">
-      <Chart type="bar" :data="barData" :options="barOptions" class="flex h-full w-full"  />
+      <Chart type="bar" :data="barData" :options="barOptions" class="flex h-full w-full"/>
   </div>
 
 </template>
 
 <style scoped>
+
 
 </style>
