@@ -42,8 +42,7 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.specialist = scores[16] + scores[17]
         student.save()
 
-        serializer = self.get_serializer(student)
-        return Response(serializer.data)
+        return Response("OK", status=200)
     
     @action(detail=False, methods=['get'])
     def get_test_result(self, request, student_nr=None):
@@ -65,4 +64,4 @@ class StudentViewSet(viewsets.ModelViewSet):
             "specialist" : student.specialist,
         }
 
-        return Response(scores)
+        return Response(scores, status=200)
