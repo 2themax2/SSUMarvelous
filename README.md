@@ -18,10 +18,9 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-Om testdata in de databse te laden voer je de volgende commands uit:
+Om testdata in de databse te laden voer je het volgende command uit:
 ```
-python manage.py load_questions
-python manage.py load_users
+python manage.py load_data
 ```
 
 ## Server starten
