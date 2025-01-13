@@ -36,7 +36,7 @@ const handleSubmit = () => {
   axios.get('https://marvelous-ssu.azurewebsites.net/csrf-token/').then((response) => {
     console.log(response.data)
     token.value = response.data.csrfToken
-    axios.post('https://marvelous-ssu.azurewebsites.net/students/calculate_scores/', {answers: answers.value}, {
+    axios.post('https://marvelous-ssu.azurewebsites.net/student/calculate_scores/', {answers: answers.value}, {
       headers: {'Content-Type': 'application/json',
         'X-CSRFToken': token.value
       },
