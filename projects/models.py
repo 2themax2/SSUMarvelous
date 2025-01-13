@@ -1,10 +1,10 @@
 from django.db import models
-from django.urls import reverse
 
 class Student(models.Model):
     student_nr = models.IntegerField()
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30)
+    mayor = models.CharField(max_length=80)
     plant = models.IntegerField(blank=True, null=True)
     investigator = models.IntegerField(blank=True, null=True)
     coordinator = models.IntegerField(blank=True, null=True)
