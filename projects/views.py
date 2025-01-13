@@ -77,48 +77,48 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-@action(detail=True, methods=['get'])
-def get_project(self, request, pk=None):
-    if not pk:
-        return Response({"error": "Must give a project number: project/{project_nr}/get_project"}, status=400)
-    project = Project.objects.get(project_nr=pk)
-    if not project:
-        return Response({"error": "Project not found."}, status=404)
+    @action(detail=True, methods=['get'])
+    def get_project(self, request, pk=None):
+        if not pk:
+            return Response({"error": "Must give a project number: project/{project_nr}/get_project"}, status=400)
+        project = Project.objects.get(project_nr=pk)
+        if not project:
+            return Response({"error": "Project not found."}, status=404)
 
-    nogroup = {}
-    students = {}
-    project_students = ProjectStudents.objects.filter(project__project_nr=1)
-    count = 0
-    for pr_st in project_students:
-        student = Student.objects.get(id=pr_st.student.id)
-        if pr_st.group_nr == None:
-            nogroup[count] = {"name" : f"{student.first_name} {student.last_name}",
+        nogroup = {}
+        students = {}
+        project_students = ProjectStudents.objects.filter(project__project_nr=1)
+        count = 0
+        for pr_st in project_students:
+            student = Student.objects.get(id=pr_st.student.id)
+            if pr_st.group_nr == None:
+                nogroup[count] = {"name" : f"{student.first_name} {student.last_name}",
+                            "mayor" : student.mayor,
+                            "role" : student.role
+                            }
+                count += 1
+            else:
+                try:
+                    students[pr_st.group_nr].append([{"name" : f"{student.first_name} {student.last_name}",
                         "mayor" : student.mayor,
                         "role" : student.role
-                        }
-            count += 1
-        else:
-            try:
-                students[pr_st.group_nr].append([{"name" : f"{student.first_name} {student.last_name}",
-                    "mayor" : student.mayor,
-                    "role" : student.role
-                    }])
-            except KeyError:
-                students[pr_st.group_nr] = [{"name" : f"{student.first_name} {student.last_name}",
-                    "mayor" : student.mayor,
-                    "role" : student.role
-                    }]
+                        }])
+                except KeyError:
+                    students[pr_st.group_nr] = [{"name" : f"{student.first_name} {student.last_name}",
+                        "mayor" : student.mayor,
+                        "role" : student.role
+                        }]
 
-    teacher = Teacher.objects.get(id=project.teacher.id)
-    project_data= {
-        "project_nr" : project.project_nr,
-        "name" : project.name,
-        "description" : project.description,
-        "teacher" : f"{teacher.first_name} {teacher.last_name}",
-        "students" : {
-            "no_group" : nogroup,
-            "groups" : students
-            }
-    }
+        teacher = Teacher.objects.get(id=project.teacher.id)
+        project_data= {
+            "project_nr" : project.project_nr,
+            "name" : project.name,
+            "description" : project.description,
+            "teacher" : f"{teacher.first_name} {teacher.last_name}",
+            "students" : {
+                "no_group" : nogroup,
+                "groups" : students
+                }
+        }
 
-    return Response(project_data, status=200)
+        return Response(project_data, status=200)
