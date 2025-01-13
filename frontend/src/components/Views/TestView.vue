@@ -4,7 +4,7 @@ import { Form } from '@primevue/forms'
 import QuestionBox from '../QuestionBox.vue'
 import { useToast } from "primevue/usetoast";
 import {Toast} from "primevue";
-import {onMounted, ref} from "vue";
+import {onMounted, provide, ref} from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router'
 
@@ -29,32 +29,34 @@ const handleResponse = (index, count) => {
   answers.value[index] = count.value;
 };
 
+const token = ref()
 // Form submit handler
 const handleSubmit = () => {
-    toast.add({ severity: 'success', summary: 'Form is submitted.' })
-    console.log('answers:', answers.value);
-    // axios.get('http://127.0.0.1:8000/csrf/')
-    //   .then(response => {
-        // const csrfToken = response.data.csrfToken;
-        // console.log(csrfToken)
-        axios.get(
-            'http://127.0.0.1:8000/Student/',
-            { answers: answers.value},
-            // Voeg hier de rest van je velden toe
-            { headers: {
-              // 'X-CSRFToken': csrfToken,
-              'Content-Type': 'application/json',
-              },
-              // withCredentials: true,
-            }
-        )
+  console.log('answers:', answers.value);
+  axios.get('http://127.0.0.1:8000/csrf-token/').then((response) => {
+    console.log(response.data)
+    token.value = response.data.csrfToken
+    axios.post('http://127.0.0.1:8000/Student/calculate_scores/', {answers: answers.value}, {
+      headers: {'Content-Type': 'application/json',
+        'X-CSRFToken': token.value
+      },
+      credentials: 'include', // Stuurt cookies naar de backend
+    })
         .then(response => {
-          console.log('Response:', response.data);})
-        .catch(err => {console.error('Error:', err);});
-      // })
-    // .catch(err => console.error('CSRF-token ophalen mislukt:', err));
+          console.log('Response', response.data)
+          toast.add({ severity: 'success', summary: 'Form is submitted.' })
+          provide('result', response.data)
+          router.push('/results')
+        })
+        .catch(err => {
+          console.log(err)
+          toast.add({severity: 'error', summary: err.response.data.error})
+        })
 
+     })
+      .catch(err => {console.log(err)} )
 };
+
 </script>
 <template>
   <header class="header-section">

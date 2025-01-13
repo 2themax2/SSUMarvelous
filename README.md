@@ -8,8 +8,9 @@ Dit is de repository voor het vak Software Startup, voor het project 'ProjectHUB
 Voor de eerste keer is het nodig om de requirements te installeren, voer de volgende commands uit:
 ```
 pip install -r requirements.txt
-npm install
 ```
+
+Verder is het belangrijk om een bestand `.env` te maken dat de structuur van example.env volgt.
 
 cd naar ProjectHUB en voer de volgende commands uit om de database op te zetten:
 ```
@@ -32,6 +33,7 @@ python manage.py runserver
 Om de front-end op te starten voer uit:
 ```
 cd frontend
+npm install
 npm run dev
 ```
 
