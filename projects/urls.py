@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.urls import include, path
 from rest_framework import routers
-from .views import csrf_token_view, RoleTestViewSet, StudentViewSet, ProjectViewSet
+from .views import csrf_token_view, RoleTestViewSet, StudentViewSet, ProjectViewSet, RoleViewSet
 
 router = routers.DefaultRouter()
 router.register(r'roletest', RoleTestViewSet)
+router.register(r'role', RoleViewSet)
 router.register(r'student', StudentViewSet)
 router.register(r'project', ProjectViewSet)
 

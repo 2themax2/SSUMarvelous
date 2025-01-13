@@ -1,10 +1,16 @@
 from rest_framework import serializers
-from .models import Project, RoleTest, Student
+from .models import Project, RoleTest, Student, Role
 
 # Serializers define the API representation.
 class RoleTestSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RoleTest
+        fields = '__all__'
+
+
+class RoleSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Role
         fields = '__all__'
 
 

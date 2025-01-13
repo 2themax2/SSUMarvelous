@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
-from .models import Project, ProjectStudents, RoleTest, Student
-from .serializers import ProjectSerializer, RoleTestSerializer, StudentSerializer
+from .models import Project, ProjectStudents, RoleTest, Student, Role
+from .serializers import ProjectSerializer, RoleTestSerializer, StudentSerializer, RoleSerializer
 from collections import Counter
 
 def csrf_token_view(request):
@@ -14,6 +14,11 @@ def csrf_token_view(request):
 class RoleTestViewSet(viewsets.ModelViewSet):
     queryset = RoleTest.objects.all()
     serializer_class = RoleTestSerializer
+
+
+class RoleViewSet(viewsets.ModelViewSet):
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
 
 
 class StudentViewSet(viewsets.ModelViewSet):
