@@ -1,7 +1,7 @@
 from operator import inv
 from django.core.management.base import BaseCommand
 from projects.models import RoleTest, Role, Student, Teacher, Project, ProjectStudents
-
+from collections import Counter
 
 class Command(BaseCommand):
     help = "Load test data into the database"
@@ -102,6 +102,25 @@ class Command(BaseCommand):
             if created:
                 count += 1
         print(f"{count} new users created. {len(students)+len(teachers)-count} users already existed.")
+
+        for student in Student.objects.all():
+            scores = {
+            "plant" : student.plant,
+            "investigator" : student.investigator,
+            "coordinator" : student.coordinator,
+            "shaper" : student.shaper,
+            "monitor" : student.monitor,
+            "teamworker" : student.teamworker,
+            "implementer" : student.implementer,
+            "finisher" : student.finisher,
+            "specialist" : student.specialist,
+            }
+
+            scores_counter = Counter(scores)
+            top = scores_counter.most_common(1)
+            student.role = top[0][0]
+            student.save()
+        print("Assigned roles to students.")
 
         # Clear the current data
         Project.objects.all().delete()

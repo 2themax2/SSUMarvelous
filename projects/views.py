@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
-from .models import Project, ProjectStudents, RoleTest, Student, Role
+from .models import Project, ProjectStudents, RoleTest, Student, Role, Teacher
 from .serializers import ProjectSerializer, RoleTestSerializer, StudentSerializer, RoleSerializer
 from collections import Counter
 
@@ -67,6 +67,8 @@ class StudentViewSet(viewsets.ModelViewSet):
 
         scores_counter = Counter(scores)
         top_three = scores_counter.most_common(3)
+        student.role = top_three[0][0]
+        student.save()
 
         return Response([scores, top_three], status=200)
     
@@ -83,23 +85,36 @@ def get_project(self, request, pk=None):
     if not project:
         return Response({"error": "Project not found."}, status=404)
 
-    nogroup = []
+    nogroup = {}
     students = {}
-    project_students = ProjectStudents.objects.get.filter(project__project_nr=pk)
+    project_students = ProjectStudents.objects.filter(project__project_nr=1)
+    count = 0
     for pr_st in project_students:
+        student = Student.objects.get(id=pr_st.student.id)
         if pr_st.group_nr == None:
-            nogroup += [f"{pr_st.student__frist_name} {pr_st.student__last_name}"]
+            nogroup[count] = {"name" : f"{student.first_name} {student.last_name}",
+                        "mayor" : student.mayor,
+                        "role" : student.role
+                        }
+            count += 1
         else:
-            if students[pr_st.group_nr] != None:
-                students[pr_st.group_nr].append(f"{pr_st.student__frist_name} {pr_st.student__last_name}")
-            else:
-                students[pr_st.group_nr] = f"{pr_st.student__frist_name} {pr_st.student__last_name}"
+            try:
+                students[pr_st.group_nr].append([{"name" : f"{student.first_name} {student.last_name}",
+                    "mayor" : student.mayor,
+                    "role" : student.role
+                    }])
+            except KeyError:
+                students[pr_st.group_nr] = [{"name" : f"{student.first_name} {student.last_name}",
+                    "mayor" : student.mayor,
+                    "role" : student.role
+                    }]
 
+    teacher = Teacher.objects.get(id=project.teacher.id)
     project_data= {
         "project_nr" : project.project_nr,
         "name" : project.name,
         "description" : project.description,
-        "teacher" : project.teacher,
+        "teacher" : f"{teacher.first_name} {teacher.last_name}",
         "students" : {
             "no_group" : nogroup,
             "groups" : students

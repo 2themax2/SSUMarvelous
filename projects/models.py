@@ -5,6 +5,7 @@ class Student(models.Model):
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30)
     mayor = models.CharField(max_length=80)
+    role = models.CharField(max_length=20, blank=True, null=True)
     plant = models.IntegerField(blank=True, null=True)
     investigator = models.IntegerField(blank=True, null=True)
     coordinator = models.IntegerField(blank=True, null=True)
