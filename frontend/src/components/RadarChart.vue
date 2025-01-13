@@ -1,22 +1,11 @@
 <script setup>
-import {inject, onMounted,onUpdated, ref, toRaw, defineProps} from "vue";
+import {inject, onMounted, onUpdated, ref, toRaw, defineProps, watchEffect} from "vue";
 import Chart from 'primevue/chart';
-
-//radar
 
 const radarData = ref();
 const radarOptions = ref();
-// const props = defineProps({scores: Array});
 
-const scores = inject('scores')
-// console.log(props.scores)
-// radarData.value = setRadarData();
-// radarOptions.value = setRadarOptions();
-onMounted(() => {
-  radarData.value = setRadarData();
-  radarOptions.value = setRadarOptions();
-  console.log(scores)
-})
+const props = defineProps(['scores'])
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -27,9 +16,9 @@ const setRadarData = () => {
     const textColor = documentStyle.getPropertyValue('--p-text-color');
     let data = []
     let labels = []
-    for (let key in scores.value) {
+    for (let key in props.scores) {
       labels.push(capitalizeFirstLetter(key))
-      data.push(scores.value[key])
+      data.push(props.scores[key])
     }
 
     return {
@@ -78,12 +67,19 @@ const setRadarOptions = () => {
     };
 }
 
+watchEffect(() => {
+  if (props.scores){
+    radarData.value = setRadarData();
+    radarOptions.value = setRadarOptions();
+  }
 
+})
 </script>
 <template>
-<!--  <div class="bg-primary flex justify-content-center align-items-center w-8 p-3">-->
-<!--    <Chart type="radar" :data="radarData" :options="radarOptions" class=" w-full p-3 flex justify-content-center align-items-center" />-->
-<!--  </div>-->
+<!--  {{scores}}-->
+  <div class="bg-primary flex justify-content-center align-items-center w-8 p-3">
+    <Chart type="radar" :data="radarData" :options="radarOptions" class=" w-full p-3 flex justify-content-center align-items-center" />
+  </div>
 </template>
 <style scoped>
 
