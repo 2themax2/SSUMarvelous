@@ -7,8 +7,10 @@ from .models import Project, ProjectStudents, RoleTest, Student
 from .serializers import ProjectSerializer, RoleTestSerializer, StudentSerializer
 from collections import Counter
 
+
 def csrf_token_view(request):
     return JsonResponse({'csrfToken': get_token(request)})
+
 
 # ViewSets define the view behavior.
 class RoleTestViewSet(viewsets.ModelViewSet):
@@ -39,7 +41,7 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.save()
 
         return Response("OK", status=200)
-    
+
     @action(detail=True, methods=['get'])
     def get_test_result(self, request, pk=None):
         if not pk:
@@ -49,21 +51,21 @@ class StudentViewSet(viewsets.ModelViewSet):
             return Response({"error": "Student not found."}, status=404)
 
         scores = {
-            "plant" : student.plant,
-            "investigator" : student.investigator,
-            "coordinator" : student.coordinator,
-            "shaper" : student.shaper,
-            "monitor" : student.monitor,
-            "teamworker" : student.teamworker,
-            "implementer" : student.implementer,
-            "finisher" : student.finisher,
-            "specialist" : student.specialist,
+            "plant": student.plant,
+            "investigator": student.investigator,
+            "coordinator": student.coordinator,
+            "shaper": student.shaper,
+            "monitor": student.monitor,
+            "teamworker": student.teamworker,
+            "implementer": student.implementer,
+            "finisher": student.finisher,
+            "specialist": student.specialist,
         }
 
         scores_counter = Counter(scores)
         top_three = scores_counter.most_common(3)
 
-        return Response([scores, top_three], status=200)
+        return Response({'allScores': scores, 'topThree': top_three}, status=200)
     
 
 class ProjectViewSet(viewsets.ModelViewSet):

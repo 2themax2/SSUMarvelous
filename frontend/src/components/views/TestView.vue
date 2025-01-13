@@ -4,7 +4,7 @@ import { Form } from '@primevue/forms'
 import QuestionBox from '../QuestionBox.vue'
 import { useToast } from "primevue/usetoast";
 import {Toast} from "primevue";
-import {onMounted, provide, ref} from "vue";
+import {onMounted, ref} from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router'
 
@@ -13,7 +13,7 @@ const route = useRoute()
 
 const questions = ref([])
 onMounted(()=> {
-  axios.get('https://marvelous-ssu.azurewebsites.net/roletest/').then((response) => {
+  axios.get('http://127.0.0.1:8000/roletest/').then((response) => {
     console.log(response.data)
     questions.value = response.data
   })
@@ -33,10 +33,10 @@ const token = ref()
 // Form submit handler
 const handleSubmit = () => {
   console.log('answers:', answers.value);
-  axios.get('https://marvelous-ssu.azurewebsites.net/csrf-token/').then((response) => {
+  axios.get('http://127.0.0.1:8000/csrf-token/').then((response) => {
     console.log(response.data)
     token.value = response.data.csrfToken
-    axios.post('https://marvelous-ssu.azurewebsites.net/calculate_scores/', {answers: answers.value}, {
+    axios.post('http://127.0.0.1:8000/student/calculate_scores/', {answers: answers.value}, {
       headers: {'Content-Type': 'application/json',
         'X-CSRFToken': token.value
       },
@@ -45,7 +45,6 @@ const handleSubmit = () => {
         .then(response => {
           console.log('Response', response.data)
           toast.add({ severity: 'success', summary: 'Form is submitted.' })
-          provide('result', response.data)
           router.push('/results')
         })
         .catch(err => {
