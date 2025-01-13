@@ -1,6 +1,7 @@
 # SSUMarvelous
 
 Dit is de repository voor het vak Software Startup, voor het project 'ProjectHUB'.
+Bezoek de website op: [ProjectHUB](www.project-hub.work)
 
 *Geschreven door B. Mellens, M. Nijman, K. Noordhof & M. Reneman*
 
