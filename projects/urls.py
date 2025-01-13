@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.urls import include, path
 from rest_framework import routers
-from .views import csrf_token_view, RoleTestViewSet, StudentViewSet, ProjectViewSet, RoleViewSet
+from .views import csrf_token_view, RoleTestViewSet, StudentViewSet, ProjectViewSet, RoleViewSet, TeacherViewSet
 
 router = routers.DefaultRouter()
 router.register(r'roletest', RoleTestViewSet)
 router.register(r'role', RoleViewSet)
 router.register(r'student', StudentViewSet)
 router.register(r'project', ProjectViewSet)
+router.register(r'teacher', TeacherViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

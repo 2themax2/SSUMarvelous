@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, RoleTest, Student, Role
+from .models import Project, RoleTest, Student, Role, Teacher
 
 # Serializers define the API representation.
 class RoleTestSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,4 +23,9 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Project
+        fields = '__all__'
+
+class TeacherSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Teacher
         fields = '__all__'
