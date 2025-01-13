@@ -4,7 +4,7 @@ from .models import RoleTest, Student
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 from .serializers import RoleTestSerializer, StudentSerializer
-from django.views.decorators.csrf import csrf_exempt
+from collections import Counter
 
 # Serializers define the API representation.
 
@@ -64,4 +64,7 @@ class StudentViewSet(viewsets.ModelViewSet):
             "specialist" : student.specialist,
         }
 
-        return Response(scores, status=200)
+        scores_counter = Counter(scores)
+        top_three = scores_counter.most_common(3)
+
+        return Response([scores, top_three], status=200)
