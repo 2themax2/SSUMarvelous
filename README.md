@@ -10,6 +10,8 @@ Voor de eerste keer is het nodig om de requirements te installeren, voer de volg
 pip install -r requirements.txt
 ```
 
+Verder is het belangrijk om een bestand `.env` te maken dat de structuur van example.env volgt.
+
 cd naar ProjectHUB en voer de volgende commands uit om de database op te zetten:
 ```
 python manage.py makemigrations
