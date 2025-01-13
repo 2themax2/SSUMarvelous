@@ -1,3 +1,4 @@
+from operator import inv
 from django.core.management.base import BaseCommand, CommandError
 from projects.models import Student, Teacher
 
@@ -6,7 +7,7 @@ class Command(BaseCommand):
     help = "Load some data into Student and Teacher"
     def handle(self, *args, **options):
         # Prepare data
-        students = [(440536, "Matthias", "Nijman", "HBO-ICT Software Engineering"),
+        students = [(440536, "Matthias", "Nijman", "HBO-ICT Software Engineering", 2, 2, 2, 2, 2, 2, 2, 2, 2),
         (357531, "Max", "Reneman", "HBO-ICT Software Engineering", 2, 2, 2, 2, 2, 2, 2, 2, 12),
         (440330, "Kyra", "Noordhof", "HBO-ICT Software Engineering", 2, 2, 2, 2, 12, 2, 2, 2, 2),
         (430315, "Bas", "Mellens", "HBO-ICT Software Engineering", 2, 12, 2, 2, 2, 2, 2, 2, 2),
@@ -39,8 +40,8 @@ class Command(BaseCommand):
 
         # Load data into correct model
         count = 0
-        for student_nr, first_name, last_name in students:
-            obj, created = Student.objects.get_or_create(student_nr=student_nr,first_name=first_name,last_name=last_name)
+        for student in students:
+            obj, created = Student.objects.get_or_create(student_nr=student[0],first_name=student[1],last_name=student[2], mayor=student[3], plant=student[4],investigator=student[5],coordinator=student[6],shaper=student[7],monitor=student[8],teamworker=student[9],implementer=student[10],finisher=student[11],specialist=student[12])
             if created:
                 count += 1
         for teacher_code, first_name, last_name in teachers:
