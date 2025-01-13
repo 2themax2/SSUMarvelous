@@ -23,6 +23,7 @@ class Teacher(models.Model):
 
 
 class Project(models.Model):
+    project_nr = models.IntegerField()
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=500, default="A fun interdisciplinary project!")
     teacher = models.ForeignKey(Teacher, blank=True, null=True, on_delete=models.SET_NULL)

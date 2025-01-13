@@ -1,6 +1,6 @@
 from operator import inv
-from django.core.management.base import BaseCommand, CommandError
-from projects.models import RoleTest, Student, Teacher
+from django.core.management.base import BaseCommand
+from projects.models import RoleTest, Student, Teacher, Project, ProjectStudents
 
 
 class Command(BaseCommand):
@@ -65,7 +65,7 @@ class Command(BaseCommand):
         (444464, "Koen", "Kooij", "Natuurkunde", 2, 2, 2, 2, 2, 2, 2, 2, 12),
         (444465, "Bas", "Holtman", "Natuurkunde", 2, 2, 2, 2, 2, 2, 12, 2, 2),
         (444466, "Joeke", "Schaafsma", "Natuurkunde", 12, 2, 2, 2, 2, 2, 2, 2, 2),]
-        teachers = [("SPNI", "Nieke", "van der Spek"),
+        teachers = [("SPNI", "Nienke", "van der Spek"),
         ("LOAA", "Arjan", "Loermans"),
         ("RIMJ", "Martijn", "Riemersma")]
 
@@ -80,3 +80,37 @@ class Command(BaseCommand):
             if created:
                 count += 1
         print(f"{count} new users created. {len(students)+len(teachers)-count} users already existed.")
+
+        # Clear the current data
+        Project.objects.all().delete()
+
+        nienke = Teacher.objects.get(teacher_code="SPNI")
+        arjan = Teacher.objects.get(teacher_code="LOAA")
+        martijn = Teacher.objects.get(teacher_code="RIMJ")
+
+        # Prepare a list of projects
+        projects = [
+        (1, "Klimaat bescherming", "Het klimaat moet beschermd. Laten we daar samen aan werken!", nienke),
+        (2, "Motor rijles", "Iedereen moet leren motor rijden!", arjan),
+        (3, "Software Startup", "Bedenk je eigen Software Startup en werk deze uit.", martijn),
+        ]
+
+        # Add each project to the model
+        for project_nr, name, description, teacher in projects:
+            object = Project(project_nr=project_nr, name=name, description=description, teacher=teacher)
+            object.save()
+        print("Added projects to database.")
+
+        # Clear the current data
+        ProjectStudents.objects.all().delete()
+
+        proj1 = Project.objects.get(project_nr=1)
+        proj2 = Project.objects.get(project_nr=3)
+
+        # Add each project student coupling to the model
+        for student in Student.objects.all():
+            object = ProjectStudents(project=proj1, student=student)
+            object.save()
+            object = ProjectStudents(project=proj2, student=student)
+            object.save()
+        print("Added project student coupling to database.")
