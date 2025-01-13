@@ -1,11 +1,10 @@
 <script setup>
 
-import {inject, onMounted, ref, provide} from "vue";
+import {onMounted, ref} from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from "primevue/usetoast";
 import {Toast} from "primevue";
-import Chart from 'primevue/chart';
 import BarChart from '../BarChart.vue';
 import RadarChart from '../RadarChart.vue'
 
