@@ -1,11 +1,33 @@
 from operator import inv
 from django.core.management.base import BaseCommand
-from projects.models import RoleTest, Student, Teacher, Project, ProjectStudents
+from projects.models import RoleTest, Role, Student, Teacher, Project, ProjectStudents
 
 
 class Command(BaseCommand):
     help = "Load test data into the database"
     def handle(self, *args, **options):
+        # Clear the current data
+        Role.objects.all().delete()
+
+        # Prepare a list of roles with template (role, description)
+        roles = [
+        ("Plant", "You are a Plant, meaning you’re probably a creative, imaginative thinker. You might sometimes get lost in your own ideas, but your originality can spark innovative solutions."),
+        ("Investigator", "You are an Investigator, meaning you probably enjoy exploring new opportunities and connecting with different people. Your enthusiasm can energize the team, though you might lose interest if the novelty wears off."),
+        ("Coordinator", "You are a Coordinator, meaning you probably excel at bringing people together and clarifying goals. You help everyone stay aligned, but be mindful of seeming too direct at times."),
+        ("Shaper", "You are a Shaper, meaning you probably push the team forward and enjoy tackling challenges head-on. Your drive can be inspiring, though it may come across as overly forceful under stress."),
+        ("Monitor", "You are a Monitor, meaning you probably look at all angles and analyze situations carefully. This logical approach helps the team make sound decisions, but others might see you as detached or too critical."),
+        ("Teamworker", "You are a Teamworker, meaning you probably excel at fostering harmony and maintaining good relationships. While your diplomacy keeps the group cohesive, you might hold back when strong decisions are needed."),
+        ("Implementer", "You are an Implementer, meaning you probably prefer structured plans and practical action. Your reliability helps keep projects on track, but you might need to stay open-minded about new ideas."),
+        ("Finisher", "You are a Finisher, meaning you probably pay close attention to details and deliver high-quality results. This diligence is valuable, but be cautious about over-focusing on minor flaws or bottlenecks."),
+        ("Specialist", "You are a Specialist, meaning you probably have in-depth expertise in a particular area. You bring valuable knowledge to the team, though it’s helpful to stay connected to broader team goals."),
+        ]
+
+        # Add each role to the model
+        for role, description in roles:
+            object = Role(role=role, description=description)
+            object.save()
+        print("Added roles to database.")
+
         # Clear the current data
         RoleTest.objects.all().delete()
 

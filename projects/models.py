@@ -39,3 +39,7 @@ class RoleTest(models.Model):
     role = models.CharField(max_length=20)
     question = models.TextField(max_length=300, default="Question")
 
+
+class Role(models.Model):
+    role = models.CharField(max_length=20)
+    description = models.TextField(max_length=300, default="Description")
