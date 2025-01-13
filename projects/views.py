@@ -14,11 +14,12 @@ from django.http import JsonResponse
 def csrf_token_view(request):
     return JsonResponse({'csrfToken': get_token(request)})
 
-
 # ViewSets define the view behavior.
 class RoleTestViewSet(viewsets.ModelViewSet):
     queryset = RoleTest.objects.all()
     serializer_class = RoleTestSerializer
+
+
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
@@ -29,7 +30,6 @@ class StudentViewSet(viewsets.ModelViewSet):
         if not scores or len(scores) < 18:
             return Response({"error": "Scores must have at least 18 values"}, status=400)
 
-        # scores = request.data.get()
         student = Student.objects.get(student_nr=440536)
         student.plant = scores[0] + scores[1]
         student.investigator = scores[2] + scores[3]
@@ -44,3 +44,25 @@ class StudentViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(student)
         return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def get_test_result(self, request, student_nr=None):
+        if not student_nr:
+            return Response({"error": "Must give a student number: student/{student_nr}/get_test_result"}, status=400)
+        student = Student.objects.get(student_nr=student_nr)
+        if not student:
+            return Response({"error": "Student not found."}, status=404)
+
+        scores = {
+            "plant" : student.plant,
+            "investigator" : student.investigator,
+            "coordinator" : student.coordinator,
+            "shaper" : student.shaper,
+            "monitor" : student.monitor,
+            "teamworker" : student.teamworker,
+            "implementer" : student.implementer,
+            "finisher" : student.finisher,
+            "specialist" : student.specialist,
+        }
+
+        return Response(scores)
