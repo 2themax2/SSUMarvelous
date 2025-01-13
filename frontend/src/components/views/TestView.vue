@@ -13,7 +13,7 @@ const route = useRoute()
 
 const questions = ref([])
 onMounted(()=> {
-  axios.get('https://marvelous-ssu.azurewebsites.net/RoleTest/').then((response) => {
+  axios.get('https://marvelous-ssu.azurewebsites.net/roletest/').then((response) => {
     console.log(response.data)
     questions.value = response.data
   })

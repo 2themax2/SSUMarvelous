@@ -23,6 +23,7 @@ class Teacher(models.Model):
 
 
 class Project(models.Model):
+    project_nr = models.IntegerField()
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=500, default="A fun interdisciplinary project!")
     teacher = models.ForeignKey(Teacher, blank=True, null=True, on_delete=models.SET_NULL)
@@ -31,9 +32,14 @@ class Project(models.Model):
 class ProjectStudents(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    group_nr = models.IntegerField(blank=True, null=True)
 
 
 class RoleTest(models.Model):
     role = models.CharField(max_length=20)
     question = models.TextField(max_length=300, default="Question")
 
+
+class Role(models.Model):
+    role = models.CharField(max_length=20)
+    description = models.TextField(max_length=300, default="Description")

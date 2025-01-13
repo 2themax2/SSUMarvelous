@@ -1,15 +1,11 @@
 from rest_framework.decorators import action
-
-from .models import RoleTest, Student
-from rest_framework import serializers, viewsets
+from rest_framework import viewsets
 from rest_framework.response import Response
-from .serializers import RoleTestSerializer, StudentSerializer
-from collections import Counter
-
-# Serializers define the API representation.
-
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
+from .models import Project, ProjectStudents, RoleTest, Student
+from .serializers import ProjectSerializer, RoleTestSerializer, StudentSerializer
+from collections import Counter
 
 def csrf_token_view(request):
     return JsonResponse({'csrfToken': get_token(request)})
@@ -68,3 +64,41 @@ class StudentViewSet(viewsets.ModelViewSet):
         top_three = scores_counter.most_common(3)
 
         return Response([scores, top_three], status=200)
+    
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+
+@action(detail=True, methods=['get'])
+def get_project(self, request, pk=None):
+    if not pk:
+        return Response({"error": "Must give a project number: project/{project_nr}/get_project"}, status=400)
+    project = Project.objects.get(project_nr=pk)
+    if not project:
+        return Response({"error": "Project not found."}, status=404)
+
+    nogroup = []
+    students = {}
+    project_students = ProjectStudents.objects.get.filter(project__project_nr=pk)
+    for pr_st in project_students:
+        if pr_st.group_nr == None:
+            nogroup += [f"{pr_st.student__frist_name} {pr_st.student__last_name}"]
+        else:
+            if students[pr_st.group_nr] != None:
+                students[pr_st.group_nr].append(f"{pr_st.student__frist_name} {pr_st.student__last_name}")
+            else:
+                students[pr_st.group_nr] = f"{pr_st.student__frist_name} {pr_st.student__last_name}"
+
+    project_data= {
+        "project_nr" : project.project_nr,
+        "name" : project.name,
+        "description" : project.description,
+        "teacher" : project.teacher,
+        "students" : {
+            "no_group" : nogroup,
+            "groups" : students
+            }
+    }
+
+    return Response(project_data, status=200)
