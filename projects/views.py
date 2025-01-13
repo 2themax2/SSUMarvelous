@@ -44,7 +44,7 @@ class StudentViewSet(viewsets.ModelViewSet):
 
         return Response("OK", status=200)
     
-    @action(detail=False, methods=['get'], detail=True)
+    @action(detail=True, methods=['get'])
     def get_test_result(self, request, pk=None):
         if not pk:
             return Response({"error": "Must give a student number: student/{student_nr}/get_test_result"}, status=400)
