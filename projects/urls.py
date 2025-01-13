@@ -19,8 +19,8 @@ from django.urls import include, path
 from rest_framework import routers
 from .views import RoleTestViewSet, StudentViewSet, csrf_token_view
 router = routers.DefaultRouter()
-router.register(r'RoleTest', RoleTestViewSet)
-router.register(r'Student', StudentViewSet)
+router.register(r'roletest', RoleTestViewSet)
+router.register(r'student', StudentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
