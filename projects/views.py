@@ -44,11 +44,11 @@ class StudentViewSet(viewsets.ModelViewSet):
 
         return Response("OK", status=200)
     
-    @action(detail=False, methods=['get'])
-    def get_test_result(self, request, student_nr=None):
-        if not student_nr:
+    @action(detail=False, methods=['get'], detail=True)
+    def get_test_result(self, request, pk=None):
+        if not pk:
             return Response({"error": "Must give a student number: student/{student_nr}/get_test_result"}, status=400)
-        student = Student.objects.get(student_nr=student_nr)
+        student = Student.objects.get(student_nr=pk)
         if not student:
             return Response({"error": "Student not found."}, status=404)
 

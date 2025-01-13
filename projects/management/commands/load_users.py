@@ -6,10 +6,33 @@ class Command(BaseCommand):
     help = "Load some data into Student and Teacher"
     def handle(self, *args, **options):
         # Prepare data
-        students = [(440536, "Matthias", "Nijman"),
-        (357531, "Max", "Reneman"),
-        (440330, "Kyra", "Noordhof"),
-        (444444, "Bas", "Mellens")]
+        students = [(440536, "Matthias", "Nijman", "HBO-ICT Software Engineering"),
+        (357531, "Max", "Reneman", "HBO-ICT Software Engineering", 2, 2, 2, 2, 2, 2, 2, 2, 12),
+        (440330, "Kyra", "Noordhof", "HBO-ICT Software Engineering", 2, 2, 2, 2, 12, 2, 2, 2, 2),
+        (430315, "Bas", "Mellens", "HBO-ICT Software Engineering", 2, 12, 2, 2, 2, 2, 2, 2, 2),
+        (444444, "Jos", "Joszoon", "Rechten", 12, 2, 2, 2, 2, 2, 2, 2, 2),
+        (444445, "Lies", "Bakker", "Medische Diagnostiek", 12, 2, 2, 2, 2, 2, 2, 2, 2),
+        (444446, "Femke", "Prins", "Medische Diagnostiek", 2, 12, 2, 2, 2, 2, 2, 2, 2),
+        (444447, "Willem", "de Vries", "Medische Diagnostiek", 2, 2, 12, 2, 2, 2, 2, 2, 2),
+        (444448, "Selim", "Kirbiyik", "Dans", 2, 2, 2, 12, 2, 2, 2, 2, 2),
+        (444449, "José", "Uniloop", "Acteur", 2, 2, 2, 2, 12, 2, 2, 2, 2),
+        (444450, "David", "Sabelis", "Acteur", 2, 2, 2, 2, 2, 12, 2, 2, 2),
+        (444451, "Jarno", "Robbe", "Rechten", 2, 2, 2, 2, 2, 2, 12, 2, 2),
+        (444452, "Rob", "Robinson", "Rechten", 2, 2, 2, 2, 2, 2, 2, 12, 2),
+        (444453, "Sophie", "Blom", "Geschiedenis", 2, 2, 2, 2, 2, 2, 2, 2, 12),
+        (444454, "Asllan", "Ibrahimi", "Geschiedenis", 12, 2, 2, 2, 2, 2, 2, 2, 2),
+        (444455, "Sem", "van der Vlugt", "Geschiedenis", 2, 12, 2, 2, 2, 2, 2, 2, 2),
+        (444456, "Astrid", "Bolt", "Acteur", 2, 12, 2, 2, 2, 2, 2, 2, 2),
+        (444457, "Linda", "Noordhuis", "Pabo", 2, 2, 12, 2, 2, 2, 2, 2, 2),
+        (444458, "Pepijn", "Douwma", "Pabo", 2, 2, 2, 12, 2, 2, 2, 2, 2),
+        (444459, "Wessel", "Berends", "Bewegingswetenschappen", 2, 2, 2, 2, 12, 2, 2, 2, 2),
+        (444460, "Bart", "Bernard", "Geoloog", 2, 12, 2, 2, 2, 2, 2, 2, 2),
+        (444461, "Erik", "Roos", "Geoloog", 2, 2, 2, 2, 2, 12, 2, 2, 2),
+        (444462, "Sacha", "Veenstra", "Natuurkunde", 2, 2, 2, 2, 2, 2, 12, 2, 2),
+        (444463, "Koen", "Hendrikse", "Natuurkunde", 2, 2, 2, 2, 2, 2, 2, 12, 2),
+        (444464, "Koen", "Kooij", "Natuurkunde", 2, 2, 2, 2, 2, 2, 2, 2, 12),
+        (444465, "Bas", "Holtman", "Natuurkunde", 2, 2, 2, 2, 2, 2, 12, 2, 2),
+        (444466, "Joeke", "Schaafsma", "Natuurkunde", 12, 2, 2, 2, 2, 2, 2, 2, 2),]
         teachers = [("SPNI", "Nieke", "van der Spek"),
         ("LOAA", "Arjan", "Loermans"),
         ("RIMJ", "Martijn", "Riemersma")]
