@@ -86,6 +86,19 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
 
     @action(detail=True, methods=['get'])
+    def get_all_projects(self, request):
+        projects = Project.objects.all()
+        projects_dict = {}
+        for project in projects:
+            projects_dict[project.project_nr] = {
+                'project_nr' : project.project_nr,
+                'name' : project.name,
+                'description' : project.description,
+                'teacher' : f"{project.teacher.first_name} {project.teacher.last_name}"
+            }
+        return Response(projects_dict, status=200)
+
+    @action(detail=True, methods=['get'])
     def get_project(self, request, pk=None):
         if not pk:
             return Response({"error": "Must give a project number: project/{project_nr}/get_project"}, status=400)
@@ -166,5 +179,5 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 project_student = ProjectStudents.objects.get(student_id=value, project__project_nr=project_nr)
                 project_student.group_nr = key
                 project_student.save()
-                
+
         return Response("OK", status=200)
