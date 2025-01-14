@@ -7,68 +7,47 @@ import Divider from "primevue/divider";
 <template>
   <div class="home-view">
     <!-- Header Section -->
-    <header class="header-section">
-      <h1 class="text-center">Welkom bij ProjectHub</h1>
-      <p class="text-center">
-        Samenwerken aan een betere toekomst door interdisciplinaire projecten!
+    <header class="header-section text-center">
+      <img src="/src/assets/favicon.ico" alt="ProjectHub Logo" class="logo" />
+      <h1>Welcome to ProjectHub</h1>
+      <p>
+        Collaborating for a better future through interdisciplinary projects!
       </p>
     </header>
 
     <!-- Introduction Section -->
     <Card class="mt-3">
-      <template #title>Over ProjectHub</template>
+      <template #title>About ProjectHub</template>
       <template #content>
         <p>
-          In de 21ste eeuw komen we als samenleving in aanraking met complexere
-          problemen door onder andere globalisering. Dit vraagt om
-          professionals die interdisciplinair kunnen samenwerken om zo tot
-          innovatieve oplossingen te komen.
-        </p>
-        <p>
-          Dit platform biedt een omgeving waarin studenten van verschillende
-          opleidingen samen kunnen werken aan projecten, begeleid door
-          docenten. Met ProjectHub leggen we de basis voor interdisciplinaire
-          samenwerking en innovatie.
+          In the 21st century, society faces increasingly complex problems due to globalization, among other factors. This requires professionals 
+          who can collaborate across disciplines to develop innovative solutions. However, in current education systems, students often work 
+          primarily with peers from their own study programs. As a result, they rarely learn how to collaborate interdisciplinarily during 
+          their studies. Once these students enter the workforce, they are required to work and communicate with people from various backgrounds. 
+          They then face the challenge of learning how to understand and empathize with those who have different perspectives. This is where 
+          ProjectHub offers a solution. The idea is that each faculty designates a specific period during which students from various programs 
+          collaborate on a project, learning to work interdisciplinarily. Through ProjectHub, teachers can create projects, and students from 
+          different programs can sign up to participate.
         </p>
       </template>
     </Card>
 
-    <Divider align="left">Doelstellingen</Divider>
-    <!-- Objectives Section -->
-    <Card class="objectives-list">
-      <template #content>
-        <p>
-          Studenten interdisciplinair laten samenwerken.
-        </p>
-        <p>Diverse studentengroepen aan interdisciplinaire complexe vraagstukken
-            laten werken.
-        </p>
-      </template>
-    </Card>
-
-    <Divider align="left">Impact van de oplossing</Divider>
-    <!-- Impact Section -->
     <Card>
       <template #title>Impact</template>
       <template #content>
         <p>
-          Studenten verbreden hun samenwerking skills, netwerk en denkniveau
-          door met andere disciplines samen te werken en tot ideeën te komen.
-        </p>
-        <p>
-          Door tijdens een opleiding interdisciplinair gewerkt te hebben ligt de
-          lat lager om dit later, tijdens onderzoek of werk, weer te doen.
+          Students broaden their collaboration skills, network, and way of thinking by working with other disciplines to develop ideas. 
+          Experiencing interdisciplinary collaboration during their studies lowers the barrier for applying these skills later in research or work.
         </p>
       </template>
     </Card>
 
-    <!-- Footer Section -->
-    <footer class="footer-section mt-3 text-center">
-      <p>
-        Klaar om mee te doen? <strong>ProjectHub</strong> is hier om jouw
-        projectervaring naar een hoger niveau te tillen.
-      </p>
-      <Button label="Ontdek meer" class="p-button-success" />
-    </footer>
   </div>
 </template>
+
+<style>
+.logo {
+  max-width: 150px;
+  margin-bottom: 1rem;
+}
+</style>
