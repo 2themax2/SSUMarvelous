@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from .models import Project, ProjectStudents, RoleTest, Student, Role, Teacher
 from .serializers import ProjectSerializer, RoleTestSerializer, StudentSerializer, RoleSerializer, TeacherSerializer
 from collections import Counter
+import math
 
 def csrf_token_view(request):
     return JsonResponse({'csrfToken': get_token(request)})
@@ -127,3 +128,41 @@ class ProjectViewSet(viewsets.ModelViewSet):
         }
 
         return Response(project_data, status=200)
+    
+    @action(detail=False, methods=['post'])
+    def make_groups(self, request):
+        project_nr = request.data.get('project_nr')
+        students = ProjectStudents.objects.filter(project__project_nr=project_nr).order_by('student__role', 'student__mayor').values_list('student_id')
+        project = Project.objects.get(project_nr=project_nr)
+        if not project:
+            return Response({"error": "Project not found."}, status=404)
+        if len(students) == 0:
+            return Response({"error": "No students in Project"}, status=404)
+       
+        total_st = len(students)
+        if total_st % 5 == 4 or total_st % 5 == 0:
+            groups = math.ceil(total_st / 5)
+        else:
+            groups = math.floor(total_st / 5)
+
+        allocated = {}
+        count = 1
+        first = True
+        for student_id in students:
+            if first:
+                allocated[count] = [student_id[0]]
+            else:
+                allocated[count] += [student_id[0]]
+            if count < groups:
+                count += 1
+            else:
+                count = 1
+                first = False
+
+        for key in allocated.keys():
+            for value in allocated[key]:
+                project_student = ProjectStudents.objects.get(student_id=value, project__project_nr=project_nr)
+                project_student.group_nr = key
+                project_student.save()
+                
+        return Response("OK", status=200)

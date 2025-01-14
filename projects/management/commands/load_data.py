@@ -1,4 +1,3 @@
-from operator import inv
 from django.core.management.base import BaseCommand
 from projects.models import RoleTest, Role, Student, Teacher, Project, ProjectStudents
 from collections import Counter
