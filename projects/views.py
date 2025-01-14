@@ -36,13 +36,10 @@ class StudentViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def calculate_scores(self, request):
         scores = request.data.get('answers')  # Zorg ervoor dat je een lijst 'scores' in je request meestuurt
-        student_data = request.data.get('student') # Bevat: student_nr (len 6), first_name (max_len 30), last_name (max_len 30), mayor (max_len 80)
         if not scores or len(scores) < 18:
             return Response({"error": "Scores must have at least 18 values"}, status=400)
-        try:
-            student = Student.objects.get(student_nr=student_data['student_nr'])
-        except:
-            student = Student.objects.create(student_nr=student_data['student_nr'], first_name=student_data['first_name'], last_name=student_data['last_name'], mayor=student_data['mayor'])
+
+        student = Student.objects.get(student_nr=440536)
         student.plant = scores[0] + scores[1]
         student.investigator = scores[2] + scores[3]
         student.coordinator = scores[4] + scores[5]
@@ -110,25 +107,28 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response({"error": "Project not found."}, status=404)
 
         nogroup = {}
-        group = {}
+        students = {}
         project_students = ProjectStudents.objects.filter(project__project_nr=1)
-        count_nogroup = 0
-        count_group = 0
+        count = 0
         for pr_st in project_students:
             student = Student.objects.get(id=pr_st.student.id)
             if pr_st.group_nr == None:
-                nogroup[count_nogroup] = {"name" : f"{student.first_name} {student.last_name}",
+                nogroup[count] = {"name" : f"{student.first_name} {student.last_name}",
                             "mayor" : student.mayor,
                             "role" : student.role
                             }
-                count_nogroup += 1
+                count += 1
             else:
-                group[count_group] = {"group_id" : pr_st.group_nr,
-                            "name" : f"{student.first_name} {student.last_name}",
-                            "mayor" : student.mayor,
-                            "role" : student.role
-                            }
-                count_group += 1
+                try:
+                    students[pr_st.group_nr].append([{"name" : f"{student.first_name} {student.last_name}",
+                        "mayor" : student.mayor,
+                        "role" : student.role
+                        }])
+                except KeyError:
+                    students[pr_st.group_nr] = [{"name" : f"{student.first_name} {student.last_name}",
+                        "mayor" : student.mayor,
+                        "role" : student.role
+                        }]
 
         teacher = Teacher.objects.get(id=project.teacher.id)
         project_data= {
@@ -138,7 +138,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             "teacher" : f"{teacher.first_name} {teacher.last_name}",
             "students" : {
                 "no_group" : nogroup,
-                "group" : group
+                "groups" : students
                 }
         }
 
