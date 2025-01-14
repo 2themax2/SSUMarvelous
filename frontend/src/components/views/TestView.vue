@@ -13,7 +13,7 @@ const route = useRoute()
 
 const questions = ref([])
 onMounted(()=> {
-  axios.get('http://127.0.0.1:8000/roletest/').then((response) => {
+  axios.get('https://marvelous-ssu.azurewebsites.net/roletest/').then((response) => {
     console.log(response.data)
     questions.value = response.data
   })
@@ -33,10 +33,10 @@ const token = ref()
 // Form submit handler
 const handleSubmit = () => {
   console.log('answers:', answers.value);
-  axios.get('http://127.0.0.1:8000/csrf-token/').then((response) => {
+  axios.get('https://marvelous-ssu.azurewebsites.net/csrf-token/').then((response) => {
     console.log(response.data)
     token.value = response.data.csrfToken
-    axios.post('http://127.0.0.1:8000/student/calculate_scores/', {answers: answers.value}, {
+    axios.post('https://marvelous-ssu.azurewebsites.net/student/calculate_scores/', {answers: answers.value}, {
       headers: {'Content-Type': 'application/json',
         'X-CSRFToken': token.value
       },

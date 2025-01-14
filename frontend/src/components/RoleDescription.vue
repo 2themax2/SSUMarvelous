@@ -9,7 +9,7 @@ const props = defineProps(['top'])
 const descriptionsTop = ref([])
 
 onMounted(()=> {
-  axios.get('http://127.0.0.1:8000/role')
+  axios.get('https://marvelous-ssu.azurewebsites.net/role')
       .then((response) => {
         console.log(response.data)
         let data = response.data

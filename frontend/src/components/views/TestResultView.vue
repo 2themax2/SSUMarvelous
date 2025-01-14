@@ -18,7 +18,7 @@ const scores = ref()
 const header = ref()
 
 onMounted(()=> {
-  axios.get('http://127.0.0.1:8000/student/440536/get_test_result')
+  axios.get('https://marvelous-ssu.azurewebsites.net/student/440536/get_test_result')
       .then((response) => {
         console.log(response.data)
         topThree.value = response.data.topThree
