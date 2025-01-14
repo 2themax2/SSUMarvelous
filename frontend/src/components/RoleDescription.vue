@@ -1,8 +1,7 @@
 <script setup>
 import {defineProps, onMounted, ref, watchEffect} from "vue";
 import axios from "axios";
-import Panel from 'primevue/panel';
-
+import Card from 'primevue/card';
 
 const descriptions = {}
 const props = defineProps(['top'])
@@ -35,19 +34,20 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="flex w-10 p-3">
-
+  <div class="flex  flex-column w-10 p-3">
+      <div class="flex align-items-center justify-content-center mt-5">
+          <h3 class="font-bold" style="color: var(--p-sky-950)">Role descriptions</h3>
+      </div>
     <div v-for="item in descriptionsTop">
-      <Panel class="flex m-2" >
-        <template #header>
-          <div class="flex items-center gap-2">
-            <span class="font-bold p-panel-header p-panel-header-color">{{item[0]}}</span>
-          </div>
-        </template>
-        <p class="m-0">
-          {{item[1]}}
-        </p>
-      </Panel>
+      <Card class="mt-3" >
+          <template #title> {{item[0]}}</template>
+          <template #content>
+              <p>
+                  {{item[1]}}
+              </p>
+          </template>
+
+      </Card>
     </div>
   </div>
 

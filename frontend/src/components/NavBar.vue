@@ -14,21 +14,17 @@ const items = ref([
         icon: 'pi pi-home',
         route: '/'
     },
-    // {
-    //     label: 'Projects',
-    //     icon: 'pi pi-clipboard',
-    // },
+    {
+        label: 'Projects',
+        icon: 'pi pi-clipboard',
+        route: '/projects'
+    },
     {
         label: 'Test',
         icon: 'pi pi-book',
         route: '/test'
     }
 ]);
-
-// const routes = [
-//   {path: '/', component: HomeView},
-//   {path: '/questionnaire', component: TestView}
-// ]
 
 </script>
 
