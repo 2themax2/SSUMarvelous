@@ -36,10 +36,13 @@ class StudentViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def calculate_scores(self, request):
         scores = request.data.get('answers')  # Zorg ervoor dat je een lijst 'scores' in je request meestuurt
+        student_data = request.data.get('student') # Bevat: student_nr (len 6), first_name (max_len 30), last_name (max_len 30), mayor (max_len 80)
         if not scores or len(scores) < 18:
             return Response({"error": "Scores must have at least 18 values"}, status=400)
-
-        student = Student.objects.get(student_nr=440536)
+        try:
+            student = Student.objects.get(student_nr=student_data['student_nr'])
+        except:
+            student = Student.objects.create(student_nr=student_data['student_nr'], first_name=student_data['first_name'], last_name=student_data['last_name'], mayor=student_data['mayor'])
         student.plant = scores[0] + scores[1]
         student.investigator = scores[2] + scores[3]
         student.coordinator = scores[4] + scores[5]
