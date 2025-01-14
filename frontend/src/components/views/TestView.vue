@@ -4,7 +4,7 @@ import { Form } from '@primevue/forms'
 import QuestionBox from '../QuestionBox.vue'
 import { useToast } from "primevue/usetoast";
 import {Toast} from "primevue";
-import {onMounted, provide, ref} from "vue";
+import {onMounted, ref} from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router'
 
@@ -45,7 +45,6 @@ const handleSubmit = () => {
         .then(response => {
           console.log('Response', response.data)
           toast.add({ severity: 'success', summary: 'Form is submitted.' })
-          provide('result', response.data)
           router.push('/results')
         })
         .catch(err => {

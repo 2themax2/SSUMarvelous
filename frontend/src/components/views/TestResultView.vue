@@ -1,62 +1,50 @@
 <script setup>
 
-import {inject, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router'
+import { useToast } from "primevue/usetoast";
+import {Toast} from "primevue";
+import BarChart from '../BarChart.vue';
+import RadarChart from '../RadarChart.vue'
+import RoleDescription from "@/components/RoleDescription.vue";
 
 const router = useRouter()
 const route = useRoute()
+const toast = useToast();
 
-const questions = ref([])
-const result = "You are a Plant!"
-const explanation = `In Belbin's team roles theory, a "Plant" is a creative and innovative thinker who brings fresh ideas and problem-solving strategies to a team. Plants are known for their originality but may sometimes struggle to turn their concepts into reality or communicate effectively without support from others.`;
+const topThree = ref()
+const scores = ref()
+const header = ref()
+
+onMounted(()=> {
+  axios.get('https://marvelous-ssu.azurewebsites.net/student/440536/get_test_result')
+      .then((response) => {
+        console.log(response.data)
+        topThree.value = response.data.topThree
+        scores.value = response.data.allScores
+        header.value = capitalizeFirstLetter(topThree.value[0][0])
+      })
+      .catch(err => {
+          console.log(err)
+          toast.add({severity: 'error', summary: err.response.data.error})
+      })
+});
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
 
 </script>
 
 <template>
-  <header class="header-section">
-    <h1 class="text-center">Test Result</h1>
-  </header>
-  <div class="result-card">
-    <p class="result-text">{{ result }}</p>
-    <p class="result-explanation">{{ explanation }}</p>
+  <div class="flex flex-column justify-content-center align-items-center w-full">
+    <div class="flex align-items-center justify-content-center mt-5">
+      <h1 class="font-bold" style="color: var(--p-sky-950)">You are a: {{header}}</h1>
+    </div>
+    <Toast />
+    <BarChart :top="topThree"/>
+    <RoleDescription :top="topThree"/>
+    <RadarChart :scores="scores" />
   </div>
 </template>
-
-<style scoped>
-.header-section {
-  margin-bottom: 20px;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.result-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center; /* Centers text inside the card */
-  margin: 20px auto; /* Centers the card horizontally */
-  padding: 20px;
-  max-width: 400px; /* Sets a max width for the card */
-  background-color: white; /* Card background */
-  border: 1px solid #ddd; /* Border for the card */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
-}
-
-.result-text {
-  font-size: 20px;
-  font-weight: bold;
-  color: #2c3e50; /* Darker color for visibility */
-  margin-bottom: 10px;
-}
-
-.result-explanation {
-  font-size: 16px;
-  color: #555; /* Softer text color */
-  line-height: 1.5;
-}
-</style>

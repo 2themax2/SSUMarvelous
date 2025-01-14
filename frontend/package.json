@@ -12,6 +12,7 @@
     "@primevue/forms": "^4.2.5",
     "@primevue/themes": "^4.2.5",
     "axios": "^1.7.9",
+    "chart.js": "^4.4.7",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primevue": "^4.2.5",
@@ -28,8 +29,8 @@
     "@rollup/rollup-linux-x64-gnu": "4.6.1"
   },
   "overrides": {
-  "vite": {
-    "rollup": "npm:@rollup/wasm-node"
+    "vite": {
+      "rollup": "npm:@rollup/wasm-node"
+    }
   }
-}
 }

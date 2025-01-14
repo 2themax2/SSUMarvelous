@@ -152,6 +152,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-CSRF_COOKIE_HTTPONLY = False  # Maakt de cookie toegankelijk voor JavaScript (nodig als je deze in JS wilt lezen)
+CSRF_COOKIE_HTTPONLY = True  # Maakt de cookie toegankelijk voor JavaScript (nodig als je deze in JS wilt lezen)
 CSRF_COOKIE_SAMESITE = 'None'  # Of gebruik 'None' als je frontend en backend op verschillende domeinen staan
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
