@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from 'vue';
+import {onBeforeMount, onMounted, onUpdated, ref, watchEffect} from 'vue';
 import axios from "axios";
 import Column from "primevue/column";
 import Button from "primevue/button";
@@ -10,57 +10,92 @@ const projectData = ref()
 const studentsGroups =  ref()
 const studentsNoGroup = ref()
 
-onMounted(() => {
-    axios.get(`https://marvelous-ssu.azurewebsites.net/project/${props.id}/get_project`)
+onBeforeMount(() => {
+    if(props.id){
+        axios.get(`https://marvelous-ssu.azurewebsites.net/project/${props.id}/get_project`)
+            .then((response) => {
+                console.log(response.data)
+                projectData.value = response.data
+                studentsNoGroup.value = projectData.value.students.no_group
+                studentsGroups.value = projectData.value.students.group
+                console.log(studentsGroups.value)
+            })
+            .catch(err => { console.log(err.data)})
+    }
+})
+const token = ref()
+
+const makeGroups = () => {
+    axios.get('https://marvelous-ssu.azurewebsites.net/csrf-token/')
         .then((response) => {
             console.log(response.data)
-            projectData.value = response.data
-            studentsNoGroup.value = response.data.students.no_group
-            studentsGroups.value = response.data.students.groups
-            console.log(studentsNoGroup)
+            token.value = response.data.csrfToken
+            axios.post(`https://marvelous-ssu.azurewebsites.net/project/make_groups/`,
+                {project_nr: props.id}, {
+                    headers: {'Content-Type': 'application/json',
+                    'X-CSRFToken': token.value },
+                credentials: 'include',
+                })
+                .then((res) => {
+                console.log(res.data)
+                })
+                .catch(err => { console.log(err)})
         })
-        .catch(err => { console.log(err.data)})
-})
+        .catch(error => {console.log(error)})
+}
 
 </script>
 
 <template>
+    <div class="flex flex-column justify-content-center ">
+        <h1 class="font-bold" style="color: var(--p-sky-950)">Project: {{ projectData.name }}</h1>
+        <div class="flex flex-row">
+            <Card class="flex m-2">
+                <template #title> Teacher:</template>
+                <template #content>
+                    <p>
+                        {{projectData.teacher}}
+                    </p>
+                </template>
+            </Card>
+            <Card class="flex m-2">
+                <template #title>Description:</template>
+                <template #content>
+                    {{projectData.description}}
+                </template>
+            </Card>
+        </div>
 
-    <div class="flex flex-wrap pt-3">
-        <div class="flex flex-col align-items-left justify-content-center p-2 mt-5">
-            <h1 class="font-bold" style="color: var(--p-sky-950)">Project: {{ projectData.name }}</h1>
-            <div class="flex flex-row">
-                <Card >
-                    <template #title> Teacher:</template>
-                    <template #content>
-                        <p>
-                            {{projectData.teacher}}
-                        </p>
-                    </template>
-                </Card>
-                <Card>
-                    <template #title>
-                        Description:
-                    </template>
-                    <template #content>
-                        {{projectData.description}}
-                    </template>
-                </Card>
+        <div v-if="Object.keys(studentsGroups).length !== 0">
+            <div class="flex justify-content-between m-2">
+                <h3 style="color: var(--p-sky-900)">Groups </h3>
+<!--                <Button class="p-2 m-1" label="Make groups" @click="makeGroups"/>-->
             </div>
 
-        </div>
-        <div v-if="studentsGroups">
+            <DataTable :value="studentsGroups"  tableStyle="min-width: 50rem">
 
-        </div>
-        <div v-else>
-            <h3 style="color: var(--p-sky-900)">Students </h3>
-            <DataTable :value="studentsNoGroup" tableStyle="min-width: 50rem">
+                <Column field="group_id" header="Group"></Column>
                 <Column field="name" header="Name"></Column>
                 <Column field="mayor" header="Mayor"></Column>
                 <Column field="role" header="Role"></Column>
+
             </DataTable>
         </div>
 
+
+        <div v-else >
+            <div class="flex justify-content-between m-2">
+                <h3 style="color: var(--p-sky-900)">Students </h3>
+                <Button class="p-2 m-1" label="Make groups" @click="makeGroups"/>
+            </div>
+
+            <DataTable :value="studentsNoGroup"  tableStyle="min-width: 50rem">
+                <Column field="name" header="Name"></Column>
+                <Column field="mayor" header="Mayor"></Column>
+                <Column field="role" header="Role"></Column>
+
+            </DataTable>
+        </div>
     </div>
 </template>
 
