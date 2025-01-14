@@ -9,6 +9,8 @@ const props = defineProps(['id'])
 const projectData = ref()
 const studentsGroups =  ref()
 const studentsNoGroup = ref()
+const token = ref()
+const data = ref([])
 
 onBeforeMount(() => {
     if(props.id){
@@ -17,13 +19,24 @@ onBeforeMount(() => {
                 console.log(response.data)
                 projectData.value = response.data
                 studentsNoGroup.value = projectData.value.students.no_group
-                studentsGroups.value = projectData.value.students.group
-                console.log(studentsGroups.value)
+                studentsGroups.value = projectData.value.students.groups
             })
-            .catch(err => { console.log(err.data)})
+            .catch(err => { console.log(err)})
     }
 })
-const token = ref()
+
+// onUpdated(() => {
+//     makeData()
+// })
+
+const makeData = () => {
+    for (let i=1; i<=Object.keys(studentsGroups.value).length; i++){
+        let record = {}
+        record['group_id'] = i
+        record['students'] = studentsGroups.value[i]
+        data.value.push(record)
+    }
+}
 
 const makeGroups = () => {
     axios.get('https://marvelous-ssu.azurewebsites.net/csrf-token/')
@@ -72,14 +85,21 @@ const makeGroups = () => {
 <!--                <Button class="p-2 m-1" label="Make groups" @click="makeGroups"/>-->
             </div>
 
-            <DataTable :value="studentsGroups"  tableStyle="min-width: 50rem">
-
-                <Column field="group_id" header="Group"></Column>
-                <Column field="name" header="Name"></Column>
-                <Column field="mayor" header="Mayor"></Column>
-                <Column field="role" header="Role"></Column>
-
-            </DataTable>
+<!--            <DataTable :value="data" v-model:expandedRows="expandedRows" dataKey="group_id"-->
+<!--                       @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" tableStyle="min-width: 50rem">-->
+<!--                <Column expander style="width: 5rem" />-->
+<!--&lt;!&ndash;                <Column field="group_id" header="Group"></Column>&ndash;&gt;-->
+<!--                <template #expansion="slotProps">-->
+<!--                    <div class="p-4">-->
+<!--                        <h5>{{ slotProps.data.group_id }}</h5>-->
+<!--                        <DataTable :value="slotProps.data.students">-->
+<!--                            <Column field="name" header="Name"></Column>-->
+<!--                            <Column field="mayor" header="Mayor"></Column>-->
+<!--                            <Column field="role" header="Role"></Column>-->
+<!--                        </DataTable>-->
+<!--                    </div>-->
+<!--                </template>-->
+<!--            </DataTable>-->
         </div>
 
 
