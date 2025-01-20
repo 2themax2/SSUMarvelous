@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, onUpdated, ref} from "vue";
+import {onMounted,  ref} from "vue";
 import axios from "axios";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -8,7 +8,7 @@ import router from "@/router.js";
 
 const projects = ref()
 
-onUpdated(()=> {
+onMounted(()=> {
     axios.get('https://marvelous-ssu.azurewebsites.net/project')
         .then((response) => {
             console.log(response.data)

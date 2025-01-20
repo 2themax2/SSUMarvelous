@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeMount, onMounted, onUpdated, ref, watchEffect} from 'vue';
+import {onBeforeMount, ref} from 'vue';
 import axios from "axios";
 import Column from "primevue/column";
 import Button from "primevue/button";
