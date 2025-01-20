@@ -120,10 +120,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 count += 1
             else:
                 try:
-                    students[pr_st.group_nr].append([{"name" : f"{student.first_name} {student.last_name}",
+                    students[pr_st.group_nr].append({"name" : f"{student.first_name} {student.last_name}",
                         "mayor" : student.mayor,
                         "role" : student.role
-                        }])
+                        })
                 except KeyError:
                     students[pr_st.group_nr] = [{"name" : f"{student.first_name} {student.last_name}",
                         "mayor" : student.mayor,
