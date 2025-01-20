@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeMount, ref} from 'vue';
+import {computed, getCurrentInstance, onBeforeMount, ref} from 'vue';
 import axios from "axios";
 import Column from "primevue/column";
 import Button from "primevue/button";
@@ -11,7 +11,6 @@ const projectData = ref()
 const studentsGroups =  ref()
 const studentsNoGroup = ref()
 const token = ref()
-const data = ref([])
 
 onBeforeMount(() => {
     if(props.id){
@@ -38,7 +37,9 @@ const makeGroups = () => {
                 credentials: 'include',
                 })
                 .then((res) => {
-                console.log(res.data)
+                    console.log(res.data)
+                    const instance = getCurrentInstance();
+                    instance.proxy.$forceUpdate();
                 })
                 .catch(err => { console.log(err)})
         })
@@ -48,7 +49,7 @@ const makeGroups = () => {
 </script>
 
 <template>
-    <div class="flex flex-column justify-content-center ">
+    <div class="flex flex-column justify-content-center " >
         <h1 class="font-bold" style="color: var(--p-sky-950)">Project: {{ projectData.name }}</h1>
         <div class="flex flex-row">
             <Card class="flex m-2">
@@ -67,7 +68,7 @@ const makeGroups = () => {
             </Card>
         </div>
 
-        <div v-if="Object.keys(studentsGroups).length !== 0">
+        <div v-if="Object.keys(studentsGroups).length !== 0" >
             <div class="flex justify-content-between m-2">
                 <h2 style="color: var(--p-sky-900)">Groups </h2>
                 <Button class="p-2 m-1" label="Remake groups" @click="makeGroups"/>
