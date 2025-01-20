@@ -15,6 +15,7 @@ const studentsNoGroup = ref()
 const token = ref()
 const toast = useToast();
 
+
 onBeforeMount(() => {
     if(props.id){
         axios.get(`https://marvelous-ssu.azurewebsites.net/project/${props.id}/get_project`)
