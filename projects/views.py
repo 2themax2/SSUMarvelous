@@ -168,7 +168,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 allocated[count] = [student_id[0]]
             else:
                 allocated[count] += [student_id[0]]
-            if count < groups:
+            if count <= groups:
                 count += 1
             else:
                 count = 1
