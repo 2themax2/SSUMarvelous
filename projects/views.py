@@ -181,3 +181,17 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 project_student.save()
 
         return Response("OK", status=200)
+    
+    @action(detail=False, methods=['post'])
+    def delete_groups(self, request):
+        project_nr = request.data.get('project_nr')
+        project = Project.objects.get(project_nr=project_nr)
+        if not project:
+            return Response({"error": "Project not found."}, status=404)
+        
+        students = ProjectStudents.objects.filter(project__project_nr=project_nr)
+        for student in students:
+            student.group_nr = None
+            student.save()
+
+        return Response("OK", status=200)
