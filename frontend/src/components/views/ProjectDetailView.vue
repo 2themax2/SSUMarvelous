@@ -5,6 +5,7 @@ import Column from "primevue/column";
 import Button from "primevue/button";
 import DataTable from "primevue/datatable";
 import Card from "primevue/card";
+import Divider from 'primevue/divider';
 const props = defineProps(['id'])
 const projectData = ref()
 const studentsGroups =  ref()
@@ -24,19 +25,6 @@ onBeforeMount(() => {
             .catch(err => { console.log(err)})
     }
 })
-
-// onUpdated(() => {
-//     makeData()
-// })
-
-const makeData = () => {
-    for (let i=1; i<=Object.keys(studentsGroups.value).length; i++){
-        let record = {}
-        record['group_id'] = i
-        record['students'] = studentsGroups.value[i]
-        data.value.push(record)
-    }
-}
 
 const makeGroups = () => {
     axios.get('https://marvelous-ssu.azurewebsites.net/csrf-token/')
@@ -81,31 +69,27 @@ const makeGroups = () => {
 
         <div v-if="Object.keys(studentsGroups).length !== 0">
             <div class="flex justify-content-between m-2">
-                <h3 style="color: var(--p-sky-900)">Groups </h3>
-<!--                <Button class="p-2 m-1" label="Make groups" @click="makeGroups"/>-->
+                <h2 style="color: var(--p-sky-900)">Groups </h2>
+                <Button class="p-2 m-1" label="Remake groups" @click="makeGroups"/>
             </div>
-
-<!--            <DataTable :value="data" v-model:expandedRows="expandedRows" dataKey="group_id"-->
-<!--                       @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" tableStyle="min-width: 50rem">-->
-<!--                <Column expander style="width: 5rem" />-->
-<!--&lt;!&ndash;                <Column field="group_id" header="Group"></Column>&ndash;&gt;-->
-<!--                <template #expansion="slotProps">-->
-<!--                    <div class="p-4">-->
-<!--                        <h5>{{ slotProps.data.group_id }}</h5>-->
-<!--                        <DataTable :value="slotProps.data.students">-->
-<!--                            <Column field="name" header="Name"></Column>-->
-<!--                            <Column field="mayor" header="Mayor"></Column>-->
-<!--                            <Column field="role" header="Role"></Column>-->
-<!--                        </DataTable>-->
-<!--                    </div>-->
-<!--                </template>-->
-<!--            </DataTable>-->
+            <Divider />
+            <div v-for="(value, key) in studentsGroups">
+                <div class="flex justify-content-between m-2">
+                    <h3 style="color: var(--p-sky-900)">Group {{key}}</h3>
+                    <DataTable class="flex " :value="value"  tableStyle="min-width: 50rem">
+                        <Column class="w-3" field="name" header="Name"></Column>
+                        <Column class="w-3" field="mayor" header="Mayor"></Column>
+                        <Column class="w-3" field="role" header="Role"></Column>
+                    </DataTable>
+                </div>
+                <Divider />
+            </div>
         </div>
 
 
         <div v-else >
             <div class="flex justify-content-between m-2">
-                <h3 style="color: var(--p-sky-900)">Students </h3>
+                <h2 style="color: var(--p-sky-900)">Students </h2>
                 <Button class="p-2 m-1" label="Make groups" @click="makeGroups"/>
             </div>
 
@@ -113,9 +97,9 @@ const makeGroups = () => {
                 <Column field="name" header="Name"></Column>
                 <Column field="mayor" header="Mayor"></Column>
                 <Column field="role" header="Role"></Column>
-
             </DataTable>
         </div>
     </div>
 </template>
+
 
